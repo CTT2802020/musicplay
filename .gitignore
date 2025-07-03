@@ -1,0 +1,51 @@
+# Dependency directories
+node_modules/
+/spotify-clone/node_modules/
+/spotify-api/node_modules/
+
+# Build output
+/build/
+/dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+mongodb.log
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.*
+config.env
+
+# Uploads & Media
+# These are often large and change frequently.
+# It's better to store them outside the repository.
+/mp3/
+/uploads/
+/public/uploads/
+/spotify-api/src/uploads/
+/spotify-api/public/uploads/
+/spotify-clone/public/uploads/
+/spotify-clone/src/uploads/
+/src/uploads/
+/spotify-api/temp/
+/temp/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# IDE configuration files
+.vscode/
+.idea/
+
+# The nested spotify-api inside spotify-clone seems like a mistake
+/spotify-clone/spotify-api/ 

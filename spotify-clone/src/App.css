@@ -1,0 +1,43 @@
+/* App.css - Minimal additional styles for the Spotify clone */
+
+.App {
+  text-align: left;
+}
+
+/* Ensure the app takes full height */
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Additional responsive utilities */
+@media (max-width: 768px) {
+  .sidebar-text {
+    display: none;
+  }
+  
+  .main-content {
+    margin-left: 4rem;
+  }
+}
+
+/* Smooth focus transitions */
+*:focus {
+  outline: none;
+}
+
+/* Improve text rendering */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom utility for mobile optimization */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific styles */
+  .music-player {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

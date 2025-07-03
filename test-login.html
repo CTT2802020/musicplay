@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #191414; color: white; }
+        .container { max-width: 400px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; }
+        button { width: 100%; padding: 12px; background: #1DB954; color: black; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #1ED760; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .success { background: #1DB954; color: black; }
+        .error { background: #E22134; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎵 Test Spotify Login</h2>
+        
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" value="demo@example.com" required>
+            <input type="password" id="password" placeholder="Password" value="123456" required>
+            <button type="submit">Đăng nhập</button>
+        </form>
+        
+        <div id="result"></div>
+        
+        <hr style="margin: 30px 0;">
+        
+        <button onclick="testRegister()">Test Đăng ký mới</button>
+        <button onclick="clearData()">Clear LocalStorage</button>
+        
+        <div style="margin-top: 30px; font-size: 12px; opacity: 0.7;">
+            <p>API: http://localhost:3002</p>
+            <p>React: http://localhost:3000</p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3002/api/v1';
+        
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                resultDiv.innerHTML = '⏳ Đang đăng nhập...';
+                
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    localStorage.setItem('token', data.token);
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        ✅ Đăng nhập thành công!<br>
+                        👤 ${data.user.name}<br>
+                        📧 ${data.user.email}<br>
+                        🎫 Token: ${data.token.substring(0, 20)}...
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Lỗi: ${data.error || 'Đăng nhập thất bại'}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Lỗi kết nối: ${error.message}`;
+            }
+        });
+        
+        async function testRegister() {
+            const email = `test${Date.now()}@example.com`;
+            const password = '123456';
+            const name = 'Test User';
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                const resultDiv = document.getElementById('result');
+                
+                if (response.ok && data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        ✅ Đăng ký thành công!<br>
+                        📧 Email: ${email}<br>
+                        🔑 Password: ${password}
+                    `;
+                    document.getElementById('email').value = email;
+                    document.getElementById('password').value = password;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Lỗi đăng ký: ${data.error}`;
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = `❌ Lỗi: ${error.message}`;
+            }
+        }
+        
+        function clearData() {
+            localStorage.clear();
+            sessionStorage.clear();
+            document.getElementById('result').innerHTML = '🧹 Đã xóa dữ liệu cache';
+        }
+        
+        // Auto test on load
+        window.onload = () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                document.getElementById('result').innerHTML = `🎫 Token hiện tại: ${token.substring(0, 20)}...`;
+            }
+        };
+    </script>
+</body>
+</html> 

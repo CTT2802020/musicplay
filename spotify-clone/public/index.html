@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1DB954" />
+    <meta name="google" content="notranslate" />
+    <meta name="translate" content="no" />
+    <meta name="description" content="Spotify Clone - Nghe nhạc trực tuyến miễn phí" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Optimization meta tags -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com" as="dns-prefetch" />
+    <link rel="preload" href="https://fonts.gstatic.com" as="dns-prefetch" />
+    
+    <title>Spotify Clone - Nghe nhạc trực tuyến</title>
+    
+    <!-- Disable Google Translate and other extensions -->
+    <script>
+      // Disable Google Translate
+      window.google_translate_dont_translate = true;
+      
+      // Prevent unwanted requests
+      if (typeof window !== 'undefined') {
+        // Block Google Translate requests
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+          const url = args[0];
+          if (typeof url === 'string' && 
+              (url.includes('translate.google.com') || 
+               url.includes('translate.googleapis.com'))) {
+            return Promise.reject(new Error('Blocked translate request'));
+          }
+          return originalFetch.apply(this, args);
+        };
+        
+        // Block XMLHttpRequest to Google Translate
+        const originalXHR = window.XMLHttpRequest;
+        window.XMLHttpRequest = function() {
+          const xhr = new originalXHR();
+          const originalOpen = xhr.open;
+          xhr.open = function(method, url, ...args) {
+            if (typeof url === 'string' && 
+                (url.includes('translate.google.com') || 
+                 url.includes('translate.googleapis.com'))) {
+              console.log('Blocked translate XHR request:', url);
+              return;
+            }
+            return originalOpen.apply(this, [method, url, ...args]);
+          };
+          return xhr;
+        };
+      }
+    </script>
+  </head>
+  <body class="notranslate">
+    <noscript>Bạn cần bật JavaScript để chạy ứng dụng này.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
