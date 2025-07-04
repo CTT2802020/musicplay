@@ -25,7 +25,16 @@ mongodb.log
 .env.*
 config.env
 
-# Uploads & Media
+# ALL AUDIO FILES - These are large and should not be in repository
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.flac
+*.ogg
+*.wma
+
+# Uploads & Media directories
 # These are often large and change frequently.
 # It's better to store them outside the repository.
 /mp3/
@@ -34,6 +43,7 @@ config.env
 /spotify-api/src/uploads/
 /spotify-api/public/uploads/
 /spotify-clone/public/uploads/
+/spotify-clone/public/mp3/
 /spotify-clone/src/uploads/
 /src/uploads/
 /spotify-api/temp/
@@ -43,9 +53,20 @@ config.env
 .DS_Store
 Thumbs.db
 
-# IDE configuration files
+# IDE configuration
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Temporary files
+/tmp/
+*.tmp
+
+# Test files
+test-*.js
+test-*.html
+test-*.txt
 
 # The nested spotify-api inside spotify-clone seems like a mistake
 /spotify-clone/spotify-api/ 
